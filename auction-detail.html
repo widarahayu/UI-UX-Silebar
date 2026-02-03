@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Detail Lelang - SILEBAR</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS & Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        'primary-light': 'var(--color-primary-light)',
+                        'primary-dark': 'var(--color-primary-dark)',
+
+                        secondary: 'var(--color-secondary)',
+                        'secondary-light': 'var(--color-secondary-light)',
+                        'secondary-dark': 'var(--color-secondary-dark)',
+
+                        accent: 'var(--color-accent)', // Warning/Orange
+                        success: 'var(--color-success)',
+                        error: 'var(--color-error)',
+
+                        background: 'var(--color-background)',
+                        surface: 'var(--color-surface)',
+                        'surface-card': 'var(--color-surface-card)',
+
+                        text: {
+                            main: 'var(--color-text-main)',
+                            muted: 'var(--color-text-muted)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS & Variables -->
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        :root {
+            /* Light Mode Palette */
+            --color-primary: #0066FF;
+            --color-primary-light: #3385FF;
+            --color-primary-dark: #0052CC;
+
+            --color-secondary: #00B4D8;
+            --color-secondary-light: #48CAE4;
+            --color-secondary-dark: #0096C7;
+
+            --color-accent: #F59E0B;
+            /* Warning/Orange for Actions */
+            --color-success: #10B981;
+            --color-error: #EF4444;
+
+            --color-background: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-surface-card: #FFFFFF;
+
+            --color-text-main: #1E293B;
+            --color-text-muted: #64748B;
+        }
+
+        .dark {
+            /* Dark Mode Palette */
+            --color-primary: #3385FF;
+            --color-primary-light: #5BA3FF;
+            --color-primary-dark: #0066FF;
+
+            --color-secondary: #48CAE4;
+            --color-secondary-light: #90E0EF;
+            --color-secondary-dark: #00B4D8;
+
+            --color-accent: #FBBF24;
+            --color-success: #34D399;
+            --color-error: #F87171;
+
+            --color-background: #0F172A;
+            --color-surface: #1E293B;
+            --color-surface-card: #334155;
+
+            --color-text-main: #F8FAFC;
+            --color-text-muted: #94A3B8;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .bid-history-item {
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col" x-data="{
+    darkMode: localStorage.getItem('theme') === 'dark',
+    toggleTheme() {
+        this.darkMode = !this.darkMode;
+        localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+        if (this.darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    },
+    init() {
+        if (this.darkMode) {
+            document.documentElement.classList.add('dark');
+        }
+    }
+}" x-init="init()">
+
+    <!-- Navbar -->
+    <nav
+        class="bg-surface sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-primary tracking-tighter">SILEBAR</span>
+                    </a>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="index.html"
+                            class="text-text-muted hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Beranda
+                        </a>
+
+                        <a href="auctions.html"
+                            class="text-primary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Lelang
+                        </a>
+
+                        <a href="how-it-works.html"
+                            class="text-text-muted hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Cara Kerja
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()"
+                        class="p-2 mr-4 rounded-full text-text-muted hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors">
+                        <template x-if="!darkMode">
+                            <!-- Sun Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                        </template>
+                        <template x-if="darkMode">
+                            <!-- Moon Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
+                        </template>
+                    </button>
+
+                    <div class="hidden md:flex items-center">
+                        <div class="ml-6 flex items-center space-x-4">
+                            <a href="login.html"
+                                class="text-sm font-semibold text-text-muted hover:text-primary transition-colors">Login</a>
+                            <a href="register.html"
+                                class="inline-flex items-center px-5 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-primary hover:bg-primary-dark transition-colors">Register</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="-mr-2 flex items-center md:hidden ml-4">
+                        <button type="button"
+                            class="bg-surface p-2 rounded-md text-text-muted hover:text-text-main hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+                            aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-btn">
+                            <span class="sr-only">Open main menu</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="hidden md:hidden bg-surface border-t border-gray-100 dark:border-gray-700" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1 px-4">
+                <a href="index.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-text-main hover:bg-gray-50 dark:hover:bg-gray-700">Beranda</a>
+                <a href="auctions.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-primary bg-blue-50 dark:bg-blue-900/20">Lelang</a>
+
+                <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex flex-col space-y-2">
+                    <a href="login.html"
+                        class="text-center w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-text-main bg-surface hover:bg-gray-50 dark:hover:bg-gray-700">Login</a>
+                    <a href="register.html"
+                        class="text-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="fade-in">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Left Column: Product Images -->
+                <div>
+                    <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
+                        <div class="aspect-[4/3] bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                            <img src="https://placehold.co/600x450/e2e8f0/64748b?text=Smartphone" alt="Smartphone Samsung Galaxy S23 Ultra" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Images -->
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="bg-surface rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square">
+                            <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Gambar+1" alt="Additional view 1" class="w-full h-full object-cover">
+                        </div>
+                        <div class="bg-surface rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square">
+                            <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Gambar+2" alt="Additional view 2" class="w-full h-full object-cover">
+                        </div>
+                        <div class="bg-surface rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square">
+                            <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Gambar+3" alt="Additional view 3" class="w-full h-full object-cover">
+                        </div>
+                        <div class="bg-surface rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square">
+                            <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Gambar+4" alt="Additional view 4" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Product Info -->
+                <div>
+                    <div class="mb-6">
+                        <span class="inline-block px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-primary text-xs font-bold rounded-full mb-4">Elektronik</span>
+                        <h1 class="text-3xl font-bold text-text-main mb-4">Smartphone Samsung Galaxy S23 Ultra</h1>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                                </div>
+                                <span class="ml-2 text-text-main font-medium">PT. Elektronik Jaya</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                <span class="ml-1 text-text-main">4.8</span>
+                                <span class="text-text-muted">(128 ulasan)</span>
+                            </div>
+                        </div>
+                        <p class="text-text-muted mb-8">
+                            Smartphone flagship terbaru dari Samsung dengan kamera 200MP, layar Dynamic AMOLED 2X, 
+                            dan daya tahan baterai hingga 2 hari. Kondisi barang 100% baru segel.
+                        </p>
+                    </div>
+                    
+                    <!-- Auction Status -->
+                    <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div>
+                                <p class="text-text-muted text-sm mb-1">Penawaran Saat Ini</p>
+                                <p class="text-3xl font-bold text-primary">Rp 12.500.000</p>
+                                <p class="text-text-muted text-sm">Penawaran tertinggi</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="bg-red-500 text-white text-sm font-bold px-4 py-2 rounded-full flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span id="timer">2j 15m</span>
+                                </div>
+                                <span class="text-text-muted">lagi</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <div class="flex justify-between text-sm text-text-muted mb-2">
+                                <span>Target Penawaran</span>
+                                <span>Rp 15.000.000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-primary h-2.5 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex flex-wrap gap-4">
+                            <div class="flex-1 min-w-[150px]">
+                                <p class="text-text-muted text-sm mb-1">Jumlah Penawar</p>
+                                <p class="text-xl font-bold text-text-main">24</p>
+                            </div>
+                            <div class="flex-1 min-w-[150px]">
+                                <p class="text-text-muted text-sm mb-1">Penawaran Terakhir</p>
+                                <p class="text-xl font-bold text-text-main">10 menit lalu</p>
+                            </div>
+                            <div class="flex-1 min-w-[150px]">
+                                <p class="text-text-muted text-sm mb-1">Penawaran Minimum</p>
+                                <p class="text-xl font-bold text-text-main">Rp 12.550.000</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Place Bid Form -->
+                    <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-6">
+                        <h3 class="text-lg font-bold text-text-main mb-4">Tempatkan Penawaran Anda</h3>
+                        <form id="bid-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-text-muted mb-2">Jumlah Penawaran</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-text-muted">Rp</span>
+                                    </div>
+                                    <input 
+                                        type="number" 
+                                        id="bid-amount" 
+                                        class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-surface text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                        placeholder="Masukkan jumlah penawaran"
+                                        min="12550000"
+                                        value="12600000"
+                                    >
+                                </div>
+                                <p class="mt-1 text-xs text-text-muted">Minimum penawaran: Rp 12.550.000</p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <button 
+                                    type="submit" 
+                                    class="flex-1 min-w-[150px] px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20"
+                                >
+                                    Tempatkan Penawaran
+                                </button>
+                                <button 
+                                    type="button" 
+                                    class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-text-main font-semibold rounded-lg hover:bg-surface transition-colors"
+                                >
+                                    Favorit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Seller Info -->
+                    <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-bold text-text-main mb-4">Informasi Penjual</h3>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                            </div>
+                            <div>
+                                <p class="font-bold text-text-main">PT. Elektronik Jaya</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span class="text-sm text-text-muted">4.8 (128 ulasan)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-xs text-text-muted">Penjualan Berhasil</p>
+                                <p class="font-bold text-text-main">98%</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-text-muted">Responsif</p>
+                                <p class="font-bold text-text-main">95%</p>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 px-4 py-2 border border-gray-300 dark:border-gray-600 text-text-main font-medium rounded-lg hover:bg-surface transition-colors">
+                            Hubungi Penjual
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bid History -->
+            <div class="mt-12 bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                <h2 class="text-2xl font-bold text-text-main mb-6">Riwayat Penawaran</h2>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-200 dark:border-gray-700">
+                                <th class="py-3 px-4 text-left text-text-muted font-medium">Penawar</th>
+                                <th class="py-3 px-4 text-left text-text-muted font-medium">Jumlah</th>
+                                <th class="py-3 px-4 text-left text-text-muted font-medium">Waktu</th>
+                                <th class="py-3 px-4 text-left text-text-muted font-medium">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100 dark:border-gray-700 bid-history-item">
+                                <td class="py-4 px-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                                        </div>
+                                        <span class="ml-3 font-medium text-text-main">Ahmad S.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4 font-bold text-primary">Rp 12.500.000</td>
+                                <td class="py-4 px-4 text-text-muted">10 menit lalu</td>
+                                <td class="py-4 px-4">
+                                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs font-medium rounded-full">Tertinggi</span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-700 bid-history-item">
+                                <td class="py-4 px-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                                        </div>
+                                        <span class="ml-3 font-medium text-text-main">Budi P.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4 text-text-main">Rp 12.450.000</td>
+                                <td class="py-4 px-4 text-text-muted">15 menit lalu</td>
+                                <td class="py-4 px-4">
+                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-text-muted text-xs font-medium rounded-full">-</span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-700 bid-history-item">
+                                <td class="py-4 px-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                                        </div>
+                                        <span class="ml-3 font-medium text-text-main">Chandra K.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4 text-text-main">Rp 12.400.000</td>
+                                <td class="py-4 px-4 text-text-muted">20 menit lalu</td>
+                                <td class="py-4 px-4">
+                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-text-muted text-xs font-medium rounded-full">-</span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-700 bid-history-item">
+                                <td class="py-4 px-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                                        </div>
+                                        <span class="ml-3 font-medium text-text-main">Dewi L.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4 text-text-main">Rp 12.350.000</td>
+                                <td class="py-4 px-4 text-text-muted">25 menit lalu</td>
+                                <td class="py-4 px-4">
+                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-text-muted text-xs font-medium rounded-full">-</span>
+                                </td>
+                            </tr>
+                            <tr class="bid-history-item">
+                                <td class="py-4 px-4">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 12 6.003z"/></svg>
+                                        </div>
+                                        <span class="ml-3 font-medium text-text-main">Eko S.</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4 text-text-main">Rp 12.300.000</td>
+                                <td class="py-4 px-4 text-text-muted">30 menit lalu</td>
+                                <td class="py-4 px-4">
+                                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-text-muted text-xs font-medium rounded-full">-</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-gray-200 dark:border-gray-700 mt-auto transition-colors duration-300">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center text-text-muted">
+                <div>
+                    <h3 class="text-xl font-bold text-primary mb-4">SILEBAR</h3>
+                    <p class="text-sm leading-relaxed max-w-sm mx-auto">
+                        Platform lelang terpercaya untuk menemukan barang impian Anda dengan harga terbaik. Aman, cepat,
+                        dan transparan.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-text-main tracking-wider uppercase mb-4">Navigasi</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-primary text-sm transition-colors">Beranda</a>
+                        </li>
+                        <li><a href="auctions.html"
+                                class="hover:text-primary text-sm transition-colors">Lelang</a></li>
+                        <li><a href="how-it-works.html"
+                                class="hover:text-primary text-sm transition-colors">Cara Kerja</a></li>
+                        <li><a href="#" class="hover:text-primary text-sm transition-colors">Syarat &
+                                Ketentuan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-text-main tracking-wider uppercase mb-4">Hubungi Kami</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center justify-center text-sm">
+                            <svg class="h-5 w-5 mr-2 text-secondary" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            support@silebar.com
+                        </li>
+                        <li class="flex items-center justify-center text-sm">
+                            <svg class="h-5 w-5 mr-2 text-secondary" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            +62 812 3456 7890
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 dark:border-gray-700 pt-8 text-center">
+                <p class="text-sm text-text-muted">
+                    &copy; 2025 SILEBAR - Sistem Lelang Barang. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Countdown timer
+        let timeLeft = 2 * 60 * 60 + 15 * 60; // 2 hours 15 minutes in seconds
+        
+        function updateTimer() {
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
+            const seconds = timeLeft % 60;
+            
+            document.getElementById('timer').textContent = 
+                `${hours}j ${minutes}m ${seconds}s`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').textContent = 'BERAKHIR';
+                document.getElementById('timer').parentElement.className = 
+                    'bg-gray-500 text-white text-sm font-bold px-4 py-2 rounded-full flex items-center gap-1';
+            }
+            
+            timeLeft--;
+        }
+        
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call
+        
+        // Bid form submission
+        document.getElementById('bid-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const bidAmount = document.getElementById('bid-amount').value;
+            if (bidAmount < 12550000) {
+                alert('Jumlah penawaran harus minimal Rp 12.550.000');
+                return;
+            }
+            
+            // In a real application, this would be an AJAX request
+            alert(`Penawaran sebesar Rp ${parseInt(bidAmount).toLocaleString('id-ID')} berhasil dikirim!`);
+            
+            // Reset form
+            document.getElementById('bid-amount').value = parseInt(bidAmount) + 50000;
+        });
+    </script>
+</body>
+
+</html>

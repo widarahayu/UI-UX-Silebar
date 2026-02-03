@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard Buyer - SILEBAR</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS & Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        'primary-light': 'var(--color-primary-light)',
+                        'primary-dark': 'var(--color-primary-dark)',
+
+                        secondary: 'var(--color-secondary)',
+                        'secondary-light': 'var(--color-secondary-light)',
+                        'secondary-dark': 'var(--color-secondary-dark)',
+
+                        accent: 'var(--color-accent)', // Warning/Orange
+                        success: 'var(--color-success)',
+                        error: 'var(--color-error)',
+
+                        background: 'var(--color-background)',
+                        surface: 'var(--color-surface)',
+                        'surface-card': 'var(--color-surface-card)',
+
+                        text: {
+                            main: 'var(--color-text-main)',
+                            muted: 'var(--color-text-muted)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS & Variables -->
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        :root {
+            /* Light Mode Palette */
+            --color-primary: #0066FF;
+            --color-primary-light: #3385FF;
+            --color-primary-dark: #0052CC;
+
+            --color-secondary: #00B4D8;
+            --color-secondary-light: #48CAE4;
+            --color-secondary-dark: #0096C7;
+
+            --color-accent: #F59E0B;
+            /* Warning/Orange for Actions */
+            --color-success: #10B981;
+            --color-error: #EF4444;
+
+            --color-background: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-surface-card: #FFFFFF;
+
+            --color-text-main: #1E293B;
+            --color-text-muted: #64748B;
+        }
+
+        .dark {
+            /* Dark Mode Palette */
+            --color-primary: #3385FF;
+            --color-primary-light: #5BA3FF;
+            --color-primary-dark: #0066FF;
+
+            --color-secondary: #48CAE4;
+            --color-secondary-light: #90E0EF;
+            --color-secondary-dark: #00B4D8;
+
+            --color-accent: #FBBF24;
+            --color-success: #34D399;
+            --color-error: #F87171;
+
+            --color-background: #0F172A;
+            --color-surface: #1E293B;
+            --color-surface-card: #334155;
+
+            --color-text-main: #F8FAFC;
+            --color-text-muted: #94A3B8;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col" x-data="{
+    darkMode: localStorage.getItem('theme') === 'dark',
+    toggleTheme() {
+        this.darkMode = !this.darkMode;
+        localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+        if (this.darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    },
+    init() {
+        if (this.darkMode) {
+            document.documentElement.classList.add('dark');
+        }
+    }
+}" x-init="init()">
+
+    <!-- Navbar -->
+    <nav
+        class="bg-surface sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-primary tracking-tighter">SILEBAR</span>
+                    </a>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="index.html"
+                            class="text-text-muted hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Beranda</a>
+                        <a href="auctions.html"
+                            class="text-text-muted hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Lelang</a>
+                        <a href="dashboard-buyer.html"
+                            class="text-primary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Dashboard</a>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()"
+                        class="p-2 mr-4 rounded-full text-text-muted hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors">
+                        <template x-if="!darkMode">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                        </template>
+                        <template x-if="darkMode">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
+                        </template>
+                    </button>
+
+                    <div class="hidden md:flex items-center">
+                        <div class="ml-3 relative" x-data="{ open: false }">
+                            <div>
+                                <button @click="open = !open" type="button"
+                                    class="bg-surface flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary items-center space-x-2"
+                                    id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                    <span class="sr-only">Open user menu</span>
+                                    <div
+                                        class="h-9 w-9 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold border border-primary/20">
+                                        R
+                                    </div>
+                                    <span class="text-text-main font-medium">Rina Aulia</span>
+                                    <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div x-show="open" @click.away="open = false"
+                                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-surface ring-1 ring-black ring-opacity-5 focus:outline-none z-50 dark:bg-gray-800 dark:border dark:border-gray-700"
+                                role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
+                                tabindex="-1">
+                                <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+                                    <p class="text-sm text-text-muted">Signed in as</p>
+                                    <p class="text-sm font-bold text-text-main truncate">rina@example.com</p>
+                                </div>
+                                <a href="dashboard-buyer.html"
+                                    class="block px-4 py-2 text-sm text-text-main hover:bg-gray-50 dark:hover:bg-gray-700">Dashboard</a>
+                                <a href="profile.html"
+                                    class="block px-4 py-2 text-sm text-text-main hover:bg-gray-50 dark:hover:bg-gray-700">Profile</a>
+                                <button
+                                    class="w-full text-left block px-4 py-2 text-sm text-error hover:bg-red-50 dark:hover:bg-red-900/20">Sign
+                                    out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="fade-in">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-text-main">Dashboard Saya</h1>
+                <p class="text-text-muted">Pantau penawaran dan riwayat kemenangan Anda</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-text-muted">Sedang Ditawar</p>
+                            <p class="text-2xl font-bold text-text-main">3 Barang</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div
+                            class="p-3 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-text-muted">Dimenangkan</p>
+                            <p class="text-2xl font-bold text-text-main">5 Barang</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-text-muted">Menunggu Pembayaran</p>
+                            <p class="text-2xl font-bold text-text-main">1 Transaksi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sections Buyer -->
+            <div class="space-y-8">
+
+                <!-- Unpaid / Won Auctions -->
+                <div
+                    class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 border-l-4 border-l-red-500">
+                    <h2 class="text-xl font-bold text-text-main mb-6 flex items-center text-red-600">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
+                        </svg>
+                        Segera Selesaikan Pembayaran
+                    </h2>
+
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div
+                            class="w-full md:w-48 h-32 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden flex-shrink-0">
+                            <img src="https://placehold.co/200x200/e2e8f0/64748b?text=Kamera" alt="Item"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-bold text-text-main">Kamera Sony A7 III Body Only</h3>
+                                    <p class="text-sm text-text-muted">Won on: 03 Feb 2025</p>
+                                </div>
+                                <span
+                                    class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-bold">Unpaid</span>
+                            </div>
+
+                            <div class="mt-4 grid grid-cols-2 gap-4 max-w-sm">
+                                <div>
+                                    <p class="text-xs text-text-muted">Winning Bid</p>
+                                    <p class="text-lg font-bold text-primary">Rp 16.500.000</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-text-muted">Batas Bayar</p>
+                                    <p class="text-sm font-semibold text-red-500">23j 59m left</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <a href="transaction.html"
+                                    class="inline-flex items-center px-6 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors shadow-lg shadow-blue-200 dark:shadow-none">
+                                    Bayar Sekarang
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Bids -->
+                <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                    <h2 class="text-xl font-bold text-text-main mb-6">Penawaran Aktif</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-200 dark:border-gray-700">
+                                    <th class="py-3 px-4 text-left text-text-muted font-medium">Barang</th>
+                                    <th class="py-3 px-4 text-left text-text-muted font-medium">Bid Anda</th>
+                                    <th class="py-3 px-4 text-left text-text-muted font-medium">Waktu</th>
+                                    <th class="py-3 px-4 text-left text-text-muted font-medium">Status</th>
+                                    <th class="py-3 px-4 text-left text-text-muted font-medium">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bidsTableBody" class="divide-y divide-gray-100 dark:divide-gray-700">
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="p-4 border-t border-gray-100 dark:border-gray-700 text-center">
+                        <button class="text-primary hover:text-primary-dark font-medium text-sm">Lihat Semua
+                            Riwayat</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Notifications/Profile (Static) -->
+            <div class="lg:col-span-1">
+                <!-- Static content preserved -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/mock-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = MockDB.requireAuth(['buyer', 'seller', 'admin']); // Allow all for demo
+
+            // Seed some dummy bids for the buyer if empty
+            const bids = [
+                { item: 'PlayStation 5 Digital', price: 5600000, status: 'Tertinggi', time: '10 menit lalu', image: 'https://placehold.co/100x100/e2e8f0/64748b?text=PS5' },
+                { item: 'Nike Air Jordan 1', price: 2100000, status: 'Kalah', time: '1 jam lalu', image: 'https://placehold.co/100x100/e2e8f0/64748b?text=Nike' }
+            ];
+
+            const tbody = document.getElementById('bidsTableBody');
+            tbody.innerHTML = bids.map(bid => `
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    <td class="py-4 px-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                                <img src="${bid.image}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-text-main line-clamp-1">${bid.item}</p>
+                                <p class="text-xs text-text-muted">ID: #BID-${Math.floor(Math.random() * 1000)}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-4">
+                        <p class="font-bold text-text-main">${MockDB.formatCurrency(bid.price)}</p>
+                    </td>
+                    <td class="py-4 px-4">
+                        <span class="text-sm text-text-muted">${bid.time}</span>
+                    </td>
+                    <td class="py-4 px-4">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full 
+                            ${bid.status === 'Tertinggi' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${bid.status}
+                        </span>
+                    </td>
+                    <td class="py-4 px-4">
+                         <button class="text-primary hover:text-primary-dark text-sm font-medium">Detail</button>
+                    </td>
+                </tr>
+             `).join('');
+        });
+    </script>
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-gray-200 dark:border-gray-700 mt-auto transition-colors duration-300">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm text-text-muted">
+                &copy; 2025 SILEBAR. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>

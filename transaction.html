@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Detail Transaksi - SILEBAR</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS & Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        'primary-light': 'var(--color-primary-light)',
+                        'primary-dark': 'var(--color-primary-dark)',
+                        background: 'var(--color-background)',
+                        surface: 'var(--color-surface)',
+                        text: {
+                            main: 'var(--color-text-main)',
+                            muted: 'var(--color-text-muted)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --color-primary: #0066FF;
+            --color-primary-light: #3385FF;
+            --color-primary-dark: #0052CC;
+            --color-background: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-text-main: #1E293B;
+            --color-text-muted: #64748B;
+        }
+
+        .dark {
+            --color-primary: #3385FF;
+            --color-primary-light: #5BA3FF;
+            --color-primary-dark: #0066FF;
+            --color-background: #0F172A;
+            --color-surface: #1E293B;
+            --color-text-main: #F8FAFC;
+            --color-text-muted: #94A3B8;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-main);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-surface sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-primary tracking-tighter">SILEBAR</span>
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <a href="dashboard-buyer.html"
+                        class="text-sm font-medium text-text-muted hover:text-primary">Kembali ke Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="flex-grow py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+                <!-- Header -->
+                <div
+                    class="bg-gray-50 dark:bg-gray-800/50 px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-text-main">Transaksi #INV-20250203-001</h1>
+                        <p class="text-sm text-text-muted">Dibuat pada: 03 Feb 2025, 14:30 WIB</p>
+                    </div>
+                    <div>
+                        <span
+                            class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold uppercase tracking-wide">Menunggu
+                            Pembayaran</span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <!-- Progress Tracker -->
+                    <div class="relative mb-12">
+                        <div class="messages-container flex flex-col md:flex-row justify-between relative z-10 w-full">
+                            <!-- Step 1 -->
+                            <div class="flex flex-col items-center flex-1">
+                                <div
+                                    class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold border-4 border-white dark:border-gray-900 z-10">
+                                    1</div>
+                                <div class="text-sm font-bold mt-2 text-primary">Checkout</div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="flex flex-col items-center flex-1">
+                                <div
+                                    class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold border-4 border-white dark:border-gray-900 z-10">
+                                    2</div>
+                                <div class="text-sm font-bold mt-2 text-primary">Pembayaran</div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="flex flex-col items-center flex-1">
+                                <div
+                                    class="w-10 h-10 bg-gray-200 dark:bg-gray-700 text-text-muted rounded-full flex items-center justify-center font-bold border-4 border-white dark:border-gray-900 z-10">
+                                    3</div>
+                                <div class="text-sm font-medium mt-2 text-text-muted">Verifikasi</div>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="flex flex-col items-center flex-1">
+                                <div
+                                    class="w-10 h-10 bg-gray-200 dark:bg-gray-700 text-text-muted rounded-full flex items-center justify-center font-bold border-4 border-white dark:border-gray-900 z-10">
+                                    4</div>
+                                <div class="text-sm font-medium mt-2 text-text-muted">Pengiriman</div>
+                            </div>
+                            <!-- Step 5 -->
+                            <div class="flex flex-col items-center flex-1">
+                                <div
+                                    class="w-10 h-10 bg-gray-200 dark:bg-gray-700 text-text-muted rounded-full flex items-center justify-center font-bold border-4 border-white dark:border-gray-900 z-10">
+                                    5</div>
+                                <div class="text-sm font-medium mt-2 text-text-muted">Selesai</div>
+                            </div>
+                        </div>
+                        <!-- Connector Line -->
+                        <div class="absolute top-5 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 -z-1">
+                            <div class="h-full bg-primary" style="width: 25%"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Left: Item Details -->
+                        <div class="md:col-span-2 space-y-8">
+                            <div>
+                                <h2 class="text-lg font-bold text-text-main mb-4">Detail Barang</h2>
+                                <div class="flex gap-4 p-4 border border-gray-100 dark:border-gray-700 rounded-xl">
+                                    <img src="https://placehold.co/100x100/e2e8f0/64748b?text=Kamera"
+                                        class="w-24 h-24 object-cover rounded-lg">
+                                    <div>
+                                        <h3 class="font-bold text-text-main">Kamera Sony A7 III Body Only</h3>
+                                        <p class="text-sm text-text-muted">Seller: Toko Kamera Jaya</p>
+                                        <div class="mt-2 text-lg font-bold text-primary">Rp 16.500.000</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2 class="text-lg font-bold text-text-main mb-4">Upload Bukti Transfer</h2>
+                                <div
+                                    class="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-800">
+                                    <p class="text-sm text-text-main mb-4">Silakan transfer ke rekening berikut:</p>
+                                    <div
+                                        class="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6">
+                                        <div>
+                                            <p class="text-xs text-text-muted">Bank BCA</p>
+                                            <p class="font-bold text-lg font-mono">123 456 7890</p>
+                                            <p class="text-sm text-text-main">a.n PT SILEBAR INDONESIA</p>
+                                        </div>
+                                        <button class="text-primary text-sm font-medium hover:underline">Salin</button>
+                                    </div>
+
+                                    <form class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-text-main mb-2">Upload Bukti
+                                                (JPG/PNG)</label>
+                                            <input type="file"
+                                                class="block w-full text-sm text-text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-dark cursor-pointer" />
+                                        </div>
+                                        <button type="button"
+                                            class="w-full py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-bold shadow-lg shadow-blue-200 dark:shadow-none transition-colors">
+                                            Konfirmasi Pembayaran
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Summary -->
+                        <div class="md:col-span-1">
+                            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 h-full">
+                                <h2 class="text-lg font-bold text-text-main mb-4">Ringkasan Biaya</h2>
+                                <div class="space-y-3 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-text-muted">Harga Barang</span>
+                                        <span class="text-text-main font-medium">Rp 16.500.000</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-text-muted">Biaya Layanan</span>
+                                        <span class="text-text-main font-medium">Rp 25.000</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-text-muted">Ongkos Kirim</span>
+                                        <span class="text-text-main font-medium">Rp 50.000</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center pt-4">
+                                    <span class="font-bold text-text-main">Total Tagihan</span>
+                                    <span class="font-bold text-xl text-primary">Rp 16.575.000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/mock-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            MockDB.requireAuth(['buyer']);
+
+            // Simulate payment submit
+            document.querySelector('button[type="button"]').addEventListener('click', (e) => {
+                if (e.target.innerText.includes('Konfirmasi Pembayaran')) {
+                    e.target.innerText = 'Memproses...';
+                    setTimeout(() => {
+                        alert('Pembayaran Berhasil! Admin akan memverifikasi bukti Anda.');
+                        window.location.href = 'dashboard-buyer.html';
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-gray-200 dark:border-gray-700 mt-auto transition-colors duration-300">
+        <div class="max-w-7xl mx-auto py-8 px-4 text-center">
+            <p class="text-sm text-text-muted">&copy; 2025 SILEBAR. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
